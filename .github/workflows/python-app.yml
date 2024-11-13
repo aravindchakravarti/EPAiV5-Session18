@@ -33,5 +33,4 @@ jobs:
 
     - name: Run pytest on test_merge.py and test_validate.py
       run: |
-        pytest test_merge.py
-        pytest test_validate.py
+        pytest assignment_test.py
