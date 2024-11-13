@@ -123,10 +123,10 @@ def test_custom_encoder_nested_serialization():
 #     with pytest.raises(ValueError):
 #         deserialize_with_marshmallow(invalid_json, StockSchema())
 
-# def test_custom_encoder_handles_decimal_properly():
-#     """Test that decimals are serialized as strings in JSON."""
-#     stock_json = json.dumps(activity["quotes"][0], cls=CustomEncoder)
-#     assert '"338.19"' in stock_json
+def test_custom_encoder_handles_decimal_properly():
+    """Test that decimals are serialized as strings in JSON."""
+    stock_json = json.dumps(activity["quotes"][0], cls=CustomEncoder)
+    assert '"338.19"' in stock_json
 
 # def test_custom_decoder_handles_decimal_properly():
 #     """Test that decimals are deserialized back into Decimal objects."""
