@@ -1,6 +1,7 @@
 import json
 from datetime import date, datetime
 from decimal import Decimal
+from marshmallow import Schema, fields, post_load
 
 class Stock:
     def __init__(self, symbol, date, open_, high, low, close, volume):
@@ -50,3 +51,59 @@ class CustomEncoder(json.JSONEncoder):
         if isinstance(o, (Stock, Trade)):
             return o.to_dict()
         return super().default(o)
+
+
+def custom_decoder(obj):
+    """Object hook for JSON deserialization"""
+    if 'type' not in obj:
+        return obj
+        
+    obj_type = obj.get('type')
+    
+    if obj_type == 'Stock':
+        return Stock(
+            symbol=obj['symbol'],
+            date=date.fromisoformat(obj['date']),
+            open_=Decimal(obj['open']),
+            high=Decimal(obj['high']),
+            low=Decimal(obj['low']),
+            close=Decimal(obj['close']),
+            volume=obj['volume']
+        )
+        
+    elif obj_type == 'Trade':
+        return Trade(
+            symbol=obj['symbol'],
+            timestamp=datetime.fromisoformat(obj['timestamp']),
+            order=obj['order'],
+            price=Decimal(obj['price']),
+            volume=obj['volume'],
+            commission=Decimal(obj['commission'])
+        )
+        
+    return obj
+
+class StockSchema(Schema):
+    symbol = fields.Str()
+    date = fields.Date()
+    open = fields.Decimal(as_string=True, data_key="open_")  # using data_key for open_
+    high = fields.Decimal(as_string=True)
+    low = fields.Decimal(as_string=True)
+    close = fields.Decimal(as_string=True)
+    volume = fields.Integer()
+
+    @post_load
+    def make_stock(self, data, **kwargs):
+        return Stock(**data)
+    
+class TradeSchema(Schema):
+    symbol = fields.Str()
+    timestamp = fields.DateTime()
+    order = fields.Str()
+    price = fields.Decimal(as_string=True)
+    volume = fields.Integer()
+    commission = fields.Decimal(as_string=True)
+
+    @post_load
+    def make_trade(self, data, **kwargs):
+        return Trade(**data)

@@ -2,7 +2,7 @@ import pytest
 from datetime import date, datetime
 from decimal import Decimal
 import json
-from assignment import Stock, Trade, CustomEncoder # , custom_decoder, StockSchema, TradeSchema, serialize_with_marshmallow, deserialize_with_marshmallow
+from assignment import Stock, Trade, CustomEncoder, custom_decoder #, StockSchema, TradeSchema, serialize_with_marshmallow, deserialize_with_marshmallow
 
 # Sample data for testing
 activity = {
@@ -35,26 +35,26 @@ def test_custom_encoder_nested_serialization():
     assert '"quotes"' in nested_json
     assert '"trades"' in nested_json
 
-# def test_custom_decoder_stock_deserialization():
-#     """Test that Stock objects are deserialized correctly with CustomDecoder."""
-#     stock_json = json.dumps(activity["quotes"], cls=CustomEncoder)
-#     stocks = json.loads(stock_json, object_hook=custom_decoder)
-#     assert isinstance(stocks[0], Stock)
-#     assert stocks[0].symbol == 'TSLA'
+def test_custom_decoder_stock_deserialization():
+    """Test that Stock objects are deserialized correctly with CustomDecoder."""
+    stock_json = json.dumps(activity["quotes"], cls=CustomEncoder)
+    stocks = json.loads(stock_json, object_hook=custom_decoder)
+    assert isinstance(stocks[0], Stock)
+    assert stocks[0].symbol == 'TSLA'
 
-# def test_custom_decoder_trade_deserialization():
-#     """Test that Trade objects are deserialized correctly with CustomDecoder."""
-#     trade_json = json.dumps(activity["trades"], cls=CustomEncoder)
-#     trades = json.loads(trade_json, object_hook=custom_decoder)
-#     assert isinstance(trades[0], Trade)
-#     assert trades[0].symbol == 'TSLA'
+def test_custom_decoder_trade_deserialization():
+    """Test that Trade objects are deserialized correctly with CustomDecoder."""
+    trade_json = json.dumps(activity["trades"], cls=CustomEncoder)
+    trades = json.loads(trade_json, object_hook=custom_decoder)
+    assert isinstance(trades[0], Trade)
+    assert trades[0].symbol == 'TSLA'
 
-# def test_custom_decoder_nested_deserialization():
-#     """Test that a nested dictionary with Stock and Trade objects is deserialized correctly."""
-#     nested_json = json.dumps(activity, cls=CustomEncoder)
-#     data = json.loads(nested_json, object_hook=custom_decoder)
-#     assert isinstance(data["quotes"][0], Stock)
-#     assert isinstance(data["trades"][0], Trade)
+def test_custom_decoder_nested_deserialization():
+    """Test that a nested dictionary with Stock and Trade objects is deserialized correctly."""
+    nested_json = json.dumps(activity, cls=CustomEncoder)
+    data = json.loads(nested_json, object_hook=custom_decoder)
+    assert isinstance(data["quotes"][0], Stock)
+    assert isinstance(data["trades"][0], Trade)
 
 # def test_marshmallow_stock_serialization():
 #     """Test that Stock objects are serialized correctly with Marshmallow."""
@@ -98,24 +98,24 @@ def test_custom_encoder_nested_serialization():
 #     assert len(quotes) == 3
 #     assert len(trades) == 2
 
-# # Additional tests for edge cases
-# def test_empty_stock_list_serialization():
-#     """Test that an empty list of stocks serializes and deserializes correctly."""
-#     empty_list_json = json.dumps([], cls=CustomEncoder)
-#     result = json.loads(empty_list_json, object_hook=custom_decoder)
-#     assert result == []
+# Additional tests for edge cases
+def test_empty_stock_list_serialization():
+    """Test that an empty list of stocks serializes and deserializes correctly."""
+    empty_list_json = json.dumps([], cls=CustomEncoder)
+    result = json.loads(empty_list_json, object_hook=custom_decoder)
+    assert result == []
 
-# def test_empty_trade_list_serialization():
-#     """Test that an empty list of trades serializes and deserializes correctly."""
-#     empty_list_json = json.dumps([], cls=CustomEncoder)
-#     result = json.loads(empty_list_json, object_hook=custom_decoder)
-#     assert result == []
+def test_empty_trade_list_serialization():
+    """Test that an empty list of trades serializes and deserializes correctly."""
+    empty_list_json = json.dumps([], cls=CustomEncoder)
+    result = json.loads(empty_list_json, object_hook=custom_decoder)
+    assert result == []
 
-# def test_invalid_json_for_custom_decoder():
-#     """Test that invalid JSON raises a decoding error with CustomDecoder."""
-#     invalid_json = '{"quotes": [invalid data]}'
-#     with pytest.raises(json.JSONDecodeError):
-#         json.loads(invalid_json, object_hook=custom_decoder)
+def test_invalid_json_for_custom_decoder():
+    """Test that invalid JSON raises a decoding error with CustomDecoder."""
+    invalid_json = '{"quotes": [invalid data]}'
+    with pytest.raises(json.JSONDecodeError):
+        json.loads(invalid_json, object_hook=custom_decoder)
 
 # def test_invalid_json_for_marshmallow_decoder():
 #     """Test that invalid JSON raises a decoding error with Marshmallow."""
