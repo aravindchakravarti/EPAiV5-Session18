@@ -2,7 +2,11 @@
 Session 18 Assignment
 
 Name: Aravind D. Chakravarti
+
 This project uses GitHub Actions for continuous integration, running tests on Python 3.8 and 3.11.
+
+![image](https://github.com/user-attachments/assets/b9454cca-d89c-489a-afaf-d62021351f6a)
+
 
 ![Build Status](https://github.com/aravindchakravarti/EPAiV5-Session18/actions/workflows/python-app.yml/badge.svg)
 
