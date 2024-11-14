@@ -107,3 +107,10 @@ class TradeSchema(Schema):
     @post_load
     def make_trade(self, data, **kwargs):
         return Trade(**data)
+    
+
+def serialize_with_marshmallow(*args):
+    pass
+
+def deserialize_with_marshmallow(*args):
+    pass

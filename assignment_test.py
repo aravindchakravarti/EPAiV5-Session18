@@ -2,7 +2,7 @@ import pytest
 from datetime import date, datetime
 from decimal import Decimal
 import json
-from assignment import Stock, Trade, CustomEncoder, custom_decoder #, StockSchema, TradeSchema, serialize_with_marshmallow, deserialize_with_marshmallow
+from assignment import Stock, Trade, CustomEncoder, custom_decoder, StockSchema, TradeSchema, serialize_with_marshmallow, deserialize_with_marshmallow
 
 # Sample data for testing
 activity = {
@@ -56,47 +56,47 @@ def test_custom_decoder_nested_deserialization():
     assert isinstance(data["quotes"][0], Stock)
     assert isinstance(data["trades"][0], Trade)
 
-# def test_marshmallow_stock_serialization():
-#     """Test that Stock objects are serialized correctly with Marshmallow."""
-#     stock_json = serialize_with_marshmallow(activity["quotes"][0])
-#     assert "TSLA" in stock_json
-#     assert "2018-11-22" in stock_json
+def test_marshmallow_stock_serialization():
+    """Test that Stock objects are serialized correctly with Marshmallow."""
+    stock_json = serialize_with_marshmallow(activity["quotes"][0])
+    assert "TSLA" in stock_json
+    assert "2018-11-22" in stock_json
 
-# def test_marshmallow_trade_serialization():
-#     """Test that Trade objects are serialized correctly with Marshmallow."""
-#     trade_json = serialize_with_marshmallow(activity["trades"][0])
-#     assert "TSLA" in trade_json
-#     assert "2018-11-22T10:05:12" in trade_json
+def test_marshmallow_trade_serialization():
+    """Test that Trade objects are serialized correctly with Marshmallow."""
+    trade_json = serialize_with_marshmallow(activity["trades"][0])
+    assert "TSLA" in trade_json
+    assert "2018-11-22T10:05:12" in trade_json
 
-# def test_marshmallow_nested_serialization():
-#     """Test that a nested dictionary with Stock and Trade objects is serialized correctly with Marshmallow."""
-#     quotes_json = [serialize_with_marshmallow(stock) for stock in activity["quotes"]]
-#     trades_json = [serialize_with_marshmallow(trade) for trade in activity["trades"]]
-#     assert len(quotes_json) == 3
-#     assert len(trades_json) == 2
+def test_marshmallow_nested_serialization():
+    """Test that a nested dictionary with Stock and Trade objects is serialized correctly with Marshmallow."""
+    quotes_json = [serialize_with_marshmallow(stock) for stock in activity["quotes"]]
+    trades_json = [serialize_with_marshmallow(trade) for trade in activity["trades"]]
+    assert len(quotes_json) == 3
+    assert len(trades_json) == 2
 
-# def test_marshmallow_stock_deserialization():
-#     """Test that Stock objects are deserialized correctly with Marshmallow."""
-#     stock_json = serialize_with_marshmallow(activity["quotes"][0])
-#     stock = deserialize_with_marshmallow(stock_json, StockSchema())
-#     assert isinstance(stock, Stock)
-#     assert stock.symbol == 'TSLA'
+def test_marshmallow_stock_deserialization():
+    """Test that Stock objects are deserialized correctly with Marshmallow."""
+    stock_json = serialize_with_marshmallow(activity["quotes"][0])
+    stock = deserialize_with_marshmallow(stock_json, StockSchema())
+    assert isinstance(stock, Stock)
+    assert stock.symbol == 'TSLA'
 
-# def test_marshmallow_trade_deserialization():
-#     """Test that Trade objects are deserialized correctly with Marshmallow."""
-#     trade_json = serialize_with_marshmallow(activity["trades"][0])
-#     trade = deserialize_with_marshmallow(trade_json, TradeSchema())
-#     assert isinstance(trade, Trade)
-#     assert trade.symbol == 'TSLA'
+def test_marshmallow_trade_deserialization():
+    """Test that Trade objects are deserialized correctly with Marshmallow."""
+    trade_json = serialize_with_marshmallow(activity["trades"][0])
+    trade = deserialize_with_marshmallow(trade_json, TradeSchema())
+    assert isinstance(trade, Trade)
+    assert trade.symbol == 'TSLA'
 
-# def test_marshmallow_nested_deserialization():
-#     """Test that a nested dictionary with Stock and Trade objects is deserialized correctly with Marshmallow."""
-#     quotes_json = [serialize_with_marshmallow(stock) for stock in activity["quotes"]]
-#     trades_json = [serialize_with_marshmallow(trade) for trade in activity["trades"]]
-#     quotes = [deserialize_with_marshmallow(q, StockSchema()) for q in quotes_json]
-#     trades = [deserialize_with_marshmallow(t, TradeSchema()) for t in trades_json]
-#     assert len(quotes) == 3
-#     assert len(trades) == 2
+def test_marshmallow_nested_deserialization():
+    """Test that a nested dictionary with Stock and Trade objects is deserialized correctly with Marshmallow."""
+    quotes_json = [serialize_with_marshmallow(stock) for stock in activity["quotes"]]
+    trades_json = [serialize_with_marshmallow(trade) for trade in activity["trades"]]
+    quotes = [deserialize_with_marshmallow(q, StockSchema()) for q in quotes_json]
+    trades = [deserialize_with_marshmallow(t, TradeSchema()) for t in trades_json]
+    assert len(quotes) == 3
+    assert len(trades) == 2
 
 # Additional tests for edge cases
 def test_empty_stock_list_serialization():
